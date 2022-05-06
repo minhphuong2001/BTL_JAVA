@@ -25,6 +25,7 @@ public class FileController {
             bufWriter.write(account.toFile());
         } catch (Exception e) {
             System.out.println(e);
+            System.out.println("test git local");
         } finally {
             try {
                 bufWriter.close();  

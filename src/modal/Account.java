@@ -15,7 +15,7 @@ public class Account {
     private String role;
 
     public String toFile(){
-        return String.format("%s\\|%s\\|%s\\|%s%n", id, username, password, role);
+        return String.format("%s|%s|%s|%s%n", id, username, password, role);
     }
 
     public Account(){}

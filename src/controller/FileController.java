@@ -48,8 +48,8 @@ public class FileController {
             }
             String line = "";
             while((line = bufReader.readLine()) != null){
-                String[] data = line.split("|");
-                Account account = new Account(data[0], data[1],data[2], data[3]);
+                String[] data = line.split("\\|");
+                Account account = new Account(Integer.parseInt(data[0]), data[1],data[2], data[3]);
                 listAcc.add(account);
             }
         } catch (Exception e) {

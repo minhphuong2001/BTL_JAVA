@@ -9,7 +9,7 @@ package modal;
  * @author ADMIN
  */
 public class Account {
-    private String id;
+    private Integer id;
     private String username;
     private String password;
     private String role;
@@ -20,18 +20,18 @@ public class Account {
 
     public Account(){}
 
-    public Account(String id, String username, String password, String role) {
+    public Account(Integer id, String username, String password, String role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

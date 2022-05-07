@@ -1,2 +1,4 @@
 1|min|123123|admin
 2|phuong|123456|user
+3|abc|123|user
+4|minhphuong|123456|user

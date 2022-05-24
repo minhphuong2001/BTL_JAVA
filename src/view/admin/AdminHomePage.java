@@ -6,7 +6,7 @@ package view.admin;
 
 /**
  *
- * @author ADMIN
+ * @author Minh Phuong Do
  */
 public class AdminHomePage extends javax.swing.JFrame {
 

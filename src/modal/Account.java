@@ -6,10 +6,10 @@ package modal;
 
 /**
  *
- * @author ADMIN
+ * @author Minh Phuong Do
  */
 public class Account {
-    private Integer id;
+    private Integer id; 
     private String username;
     private String password;
     private String role;

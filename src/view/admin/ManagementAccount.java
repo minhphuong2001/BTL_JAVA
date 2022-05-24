@@ -7,13 +7,18 @@ package view.admin;
 import controller.FileController;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.prefs.Preferences;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.Account;
 
 /**
  *
- * @author ADMIN
+ * @author Minh Phuong Do
  */
 public class ManagementAccount extends javax.swing.JFrame {
 
@@ -23,6 +28,17 @@ public class ManagementAccount extends javax.swing.JFrame {
     static DefaultTableModel tableModal;
     static List<Account> listAcc = new ArrayList<Account>();
     static FileController fileController;
+
+    public void increaseIndex(){
+        int lastIndex = listAcc.get(listAcc.size()-1).getId();
+        Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
+
+        AtomicInteger autoinc = new AtomicInteger(prefs.getInt("autoincrement", lastIndex));
+
+        idField.setText(""+autoinc.incrementAndGet());
+        idField.setEnabled(false);
+        prefs.putInt("autoincrement", autoinc.get());
+    }
 
     public ManagementAccount() {
         initComponents();
@@ -35,6 +51,7 @@ public class ManagementAccount extends javax.swing.JFrame {
         }
         editBtn.setEnabled(false);
         deleteBtn.setEnabled(false);
+        increaseIndex();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,14 +63,14 @@ public class ManagementAccount extends javax.swing.JFrame {
     private void initComponents() {
 
         jSpinner1 = new javax.swing.JSpinner();
-        jLabel2 = new javax.swing.JLabel();
+        titleLabel = new javax.swing.JLabel();
         idLabel = new javax.swing.JLabel();
         idField = new javax.swing.JTextField();
         usernameLabel = new javax.swing.JLabel();
         usernameField = new javax.swing.JTextField();
         passwordLabel = new javax.swing.JLabel();
         passwordField = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        roleLabel = new javax.swing.JLabel();
         addBtn = new javax.swing.JButton();
         editBtn = new javax.swing.JButton();
         roleComboBox = new javax.swing.JComboBox<>();
@@ -66,23 +83,29 @@ public class ManagementAccount extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản lý tài khoản");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(75, 123, 236));
-        jLabel2.setText("QUẢN LÝ TÀI KHOẢN");
+        titleLabel.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(75, 123, 236));
+        titleLabel.setText("QUẢN LÝ TÀI KHOẢN");
 
         idLabel.setText("ID");
 
-        idField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idFieldActionPerformed(evt);
+        usernameLabel.setText("Username");
+
+        usernameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                usernameFieldKeyReleased(evt);
             }
         });
 
-        usernameLabel.setText("Username");
-
         passwordLabel.setText("Password");
 
-        jLabel6.setText("Role");
+        passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                passwordFieldKeyReleased(evt);
+            }
+        });
+
+        roleLabel.setText("Role");
 
         addBtn.setBackground(new java.awt.Color(75, 123, 236));
         addBtn.setForeground(new java.awt.Color(255, 255, 255));
@@ -93,7 +116,8 @@ public class ManagementAccount extends javax.swing.JFrame {
             }
         });
 
-        editBtn.setText("Sửa");
+        editBtn.setBackground(new java.awt.Color(102, 255, 102));
+        editBtn.setText("Cập nhật");
         editBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editBtnActionPerformed(evt);
@@ -101,13 +125,8 @@ public class ManagementAccount extends javax.swing.JFrame {
         });
 
         roleComboBox.setEditable(true);
-        roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Employee", "Customer" }));
+        roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Employee" }));
         roleComboBox.setMinimumSize(new java.awt.Dimension(64, 40));
-        roleComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roleComboBoxActionPerformed(evt);
-            }
-        });
 
         accountTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -136,6 +155,11 @@ public class ManagementAccount extends javax.swing.JFrame {
         closeBtn.setBackground(new java.awt.Color(75, 123, 236));
         closeBtn.setForeground(new java.awt.Color(255, 255, 255));
         closeBtn.setText("Đóng");
+        closeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeBtnActionPerformed(evt);
+            }
+        });
 
         showError.setForeground(new java.awt.Color(255, 0, 0));
 
@@ -148,8 +172,8 @@ public class ManagementAccount extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(72, 72, 72)
                         .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(editBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(editBtn)
                         .addGap(27, 27, 27)
                         .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -166,7 +190,7 @@ public class ManagementAccount extends javax.swing.JFrame {
                                     .addComponent(idField)
                                     .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel6)
+                                .addComponent(roleLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(showError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -176,7 +200,7 @@ public class ManagementAccount extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addComponent(titleLabel)
                     .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(355, 355, 355))
         );
@@ -184,7 +208,7 @@ public class ManagementAccount extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jLabel2)
+                .addComponent(titleLabel)
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -202,7 +226,7 @@ public class ManagementAccount extends javax.swing.JFrame {
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
+                            .addComponent(roleLabel))
                         .addGap(18, 18, 18)
                         .addComponent(showError)
                         .addGap(20, 20, 20)
@@ -220,51 +244,63 @@ public class ManagementAccount extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void roleComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_roleComboBoxActionPerformed
-
-    private void idFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idFieldActionPerformed
-
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
         try {
             Integer id = Integer.parseInt(idField.getText().trim());
             String username = usernameField.getText().trim();
             String password = passwordField.getText().trim();
-            String role = roleComboBox.getSelectedItem().toString().toLowerCase();
+            String role = roleComboBox.getSelectedItem().toString().toLowerCase().trim();
+            
+            if(username.compareTo("") == 0){
+                showError.setText("Vui lòng nhập tên");
+                return;
+           }
+            String regexUsername = "^[a-zA-Z0-9]{0,30}$";
+            Pattern pattern = Pattern.compile(regexUsername);
+            Matcher match = pattern.matcher(username);
 
-            if(id.equals("") || username.equals("") || password.equals("")) {
-                showError.setText("Vui lòng lòng nhập đầy đủ thông tin");
+            if(!match.matches()){
+                showError.setText("Tên người dùng không bao gồm các kí tự đặc biệt");
+                return;
+            } 
+            if(username.length() < 6){
+                showError.setText("Tên người dùng tối thiểu 6 kí tự");
+                return;
             }
-            showError.setText("");
+
+            if(password.compareTo("") == 0){
+                showError.setText("Vui lòng nhập mật khẩu");
+                return;
+            }
+            if(password.length() < 6){
+                showError.setText("Mật khẩu phải lớn hơn hoặc bằng 6 kí tự");
+                return;
+            }
+
+            if(role.compareTo("") == 0){
+                showError.setText("Vui lòng nhập chọn vai trò");
+                return;
+            }
+            showError.setText(null);
 
             Account account = new Account(id, username, password, role);
-            if(role.equals("employee") || role.equals("customer")) {
-                System.out.println(role);
-                account.setRole("user");
-            }
             boolean check = false;
             for(Account item : listAcc) {
-                if(id.toString().compareTo(item.getId().toString()) == 0) {
-                    showError.setText("ID trùng, vui lòng nhập ID khác");
+                if(username.toString().compareTo(item.getUsername().toString()) == 0) {
+                    showError.setText("Tên người dùng không được phép trùng");
                     check = true;
                 }
             }
+
             if(check == false) {
                 fileController.writeAccountToFile("account.txt", account);
                 tableModal.addRow(new Object[]{
                     account.getId(), account.getUsername(), account.getPassword(), account.getRole()
                 });
                 listAcc.add(account);
-
-                idField.setText("");
-                usernameField.setText("");
-                passwordField.setText("");
-                roleComboBox.setSelectedItem("");
-                JOptionPane.showConfirmDialog(null, "Thêm tài khoản mới thành công", "Thêm mới", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                setTextNull("Thêm tài khoản mới thành công", "Thêm mới tài khoản");
+                increaseIndex();
             }
         } catch(NumberFormatException e) {
             showError.setText("Vui lòng lòng nhập đầy đủ thông tin");
@@ -276,16 +312,43 @@ public class ManagementAccount extends javax.swing.JFrame {
 
     private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
         // TODO add your handling code here:
-            Integer id = Integer.parseInt(idField.getText().trim());
-            String username = usernameField.getText().trim();
-            String password = passwordField.getText().trim();
-            String role = roleComboBox.getSelectedItem().toString();
-//int row = accountTable.getSelectedRow();
+        Integer id = Integer.parseInt(idField.getText().trim());
+        String username = usernameField.getText().trim();
+        String password = passwordField.getText().trim();
+        String role = roleComboBox.getSelectedItem().toString().toLowerCase();
+        int row = accountTable.getSelectedRow();
 
+        // update data in file
+        Account account = new Account(id, username, password, role);
+        listAcc.set(row, account);
+        FileController.updateListAccountToFile("account.txt", listAcc);
+
+        //update UI
+        accountTable.setValueAt(id, row, 0);
+        accountTable.setValueAt(username, row, 1);
+        accountTable.setValueAt(password, row, 2);
+        accountTable.setValueAt(role, row, 3);
+
+        editBtn.setEnabled(false);
+        deleteBtn.setEnabled(false);
+        addBtn.setEnabled(true);
+        setTextNull("Cập nhật thông tin thành công", "Cập nhật tài khoản");
+        increaseIndex();
     }//GEN-LAST:event_editBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
+        int row = accountTable.getSelectedRow();
+        tableModal.removeRow(row);
+
+        listAcc.remove(row);
+        fileController.updateListAccountToFile("account.txt", listAcc);
+
+        editBtn.setEnabled(false);
+        deleteBtn.setEnabled(false);
+        addBtn.setEnabled(true);
+        setTextNull("Xóa thành công", "Xóa tài khoản");
+        increaseIndex();
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void accountTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accountTableMouseClicked
@@ -296,6 +359,11 @@ public class ManagementAccount extends javax.swing.JFrame {
         String password = (String) tableModal.getValueAt(row, 2);
         String role = (String) tableModal.getValueAt(row, 3);
 
+        if(role.equals("admin")){
+            role = "Admin";
+        } else {
+            role = "Employee";
+        }
         idField.setText("" + id);
         usernameField.setText(username);
         passwordField.setText(password);
@@ -307,6 +375,65 @@ public class ManagementAccount extends javax.swing.JFrame {
         deleteBtn.setEnabled(true);
     }//GEN-LAST:event_accountTableMouseClicked
 
+    private void closeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeBtnActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_closeBtnActionPerformed
+
+    private void passwordFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyReleased
+        // TODO add your handling code here:
+        validateField("password", passwordField.getText().trim());
+    }//GEN-LAST:event_passwordFieldKeyReleased
+
+    private void usernameFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameFieldKeyReleased
+        validateField("username", usernameField.getText().trim());
+    }//GEN-LAST:event_usernameFieldKeyReleased
+
+    private void validateField(String name, String value) {
+        switch (name) {
+            case "password":
+                if(value.compareTo("") == 0){
+                    showError.setText("Vui lòng nhập mật khẩu");
+                    return;
+                }
+                if(value.length() < 6){
+                    showError.setText("Mật khẩu phải có độ dài lớn hơn 6");
+                    return;
+                }
+                showError.setText(null);
+                break;
+            case "username": {
+                if(value.compareTo("") == 0){
+                    showError.setText("Vui lòng nhập tên người dùng");
+                    return;
+                }
+                String regexUsername = "^[a-zA-Z0-9]{0,30}$";
+                Pattern pattern = Pattern.compile(regexUsername);
+                Matcher match = pattern.matcher(value);
+
+                if(!match.matches()){
+                    showError.setText("Tên người dùng không bao gồm các kí tự đặc biệt");
+                    return;
+                } 
+                if(value.length() < 6){
+                    showError.setText("Tên người dùng tối thiểu 6 kí tự");
+                    return;
+                }
+                showError.setText(null);
+                break;
+            }
+            default:
+                showError.setText(null);
+                break;
+    }
+}
+    private void setTextNull(String title, String subTitle){
+        idField.setText("");
+        usernameField.setText("");
+        passwordField.setText("");
+        roleComboBox.setSelectedItem("");
+        JOptionPane.showConfirmDialog(null, title, subTitle, JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+    }
     /**
      * @param args the command line arguments
      */
@@ -350,14 +477,14 @@ public class ManagementAccount extends javax.swing.JFrame {
     private javax.swing.JButton editBtn;
     private javax.swing.JTextField idField;
     private javax.swing.JLabel idLabel;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTextField passwordField;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JComboBox<String> roleComboBox;
+    private javax.swing.JLabel roleLabel;
     private javax.swing.JLabel showError;
+    private javax.swing.JLabel titleLabel;
     private javax.swing.JTextField usernameField;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables

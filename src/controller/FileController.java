@@ -64,4 +64,24 @@ public class FileController {
         }
         return listAcc;
     }
+
+    public static void updateListAccountToFile(String filename, List<Account> listAcc){
+        try {
+            fileWriter = new FileWriter(filename, false);
+            bufWriter = new BufferedWriter(fileWriter);
+            for(Account item : listAcc){
+                bufWriter.write(item.toFile());
+            }
+            System.out.println("update file successfully...");
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                bufWriter.close();  
+                fileWriter.close();
+            } catch (Exception e) {         
+                System.out.println("error4: " + e);  
+            }
+        }
+    }
 }

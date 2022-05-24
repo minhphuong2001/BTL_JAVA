@@ -13,7 +13,7 @@ import view.admin.AdminHomePage;
 
 /**
  *
- * @author ADMIN
+ * @author Minh Phuong Do
  */
 public class Login extends javax.swing.JFrame {
 

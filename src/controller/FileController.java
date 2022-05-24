@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import modal.Account;
+import modal.Customer;
+import java.io.IOException;
 
 /**
  *
@@ -84,4 +86,79 @@ public class FileController {
             }
         }
     }
+    
+    
+    public static void writeCustomerToFile(String filename, Customer cus)
+    {
+        FileWriter fw=null;
+        BufferedWriter bw=null;
+        try {
+            fw= new FileWriter(filename, true);
+            bw= new BufferedWriter(fw);
+            bw.write("\n"+cus.getCustomerId()+";"+cus.getCustomerName()+";"+cus.getCustomerPhone()+";"+cus.getAccumulatePoints());  
+        } catch (IOException ex) {
+            System.out.println("Loi ghi file: " + ex);
+        } finally {
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+                System.out.println("Loi close" + ex);
+            }
+        }
+    }
+    
+    public static void writeListCustomerFile(String filename, List<Customer> Customers){
+        FileWriter fw=null;
+        BufferedWriter bw=null;
+        try {
+            fw= new FileWriter(filename, false);
+            bw= new BufferedWriter(fw);
+            for(Customer cus: Customers){
+                bw.write(cus.getCustomerId()+";"+cus.getCustomerName()+";"+cus.getCustomerPhone()+";"+cus.getAccumulatePoints());  
+                bw.newLine();
+            }  
+        } catch (IOException ex) {
+            System.out.println("Loi ghi file");
+        } finally {
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+                System.out.println("Loi close");
+            }
+        }
+    }
+    
+    
+    public static List<Customer> readCustomerFromFile(String filename){
+        List<Customer> customers = new ArrayList<>();
+        FileReader fr=null;
+        BufferedReader br=null;
+        try {
+            fr= new FileReader(filename);
+            br= new BufferedReader(fr);
+            String line="";
+            while( (line=br.readLine())!=null ){
+                String str[]= line.split(";");
+                customers.add(new Customer(Integer.parseInt(str[0]), str[1], str[2], Float.parseFloat(str[3])));
+            }
+        } catch (IOException ex) {
+            System.out.println("Loi doc file" + ex);
+        } finally {
+            try {
+                br.close();
+                fr.close();
+            } catch (IOException ex) {
+                System.out.println("Loi close" + ex);
+            }
+        }
+        return customers;
+    }
+    
+    
+    
+    
+    
+    
 }

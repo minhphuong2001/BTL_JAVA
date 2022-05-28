@@ -10,6 +10,7 @@ import java.util.List;
 import modal.Account;
 import modal.Customer;
 import java.io.IOException;
+import modal.Employee;
 
 /**
  *
@@ -155,10 +156,89 @@ public class FileController {
         }
         return customers;
     }
+//        public static void writeEmployeeToFile(String filename, Employee employee){
+//        try {
+//            fileWriter = new FileWriter(filename, true);
+//            bufWriter = new BufferedWriter(fileWriter);
+//            bufWriter.write(employee.toFile());
+//        } catch (Exception e0) {
+//            System.out.println(e0);
+//        } finally {
+//            try {
+//                bufWriter.close();  
+//                fileWriter.close();
+//            } catch (Exception e1) {         
+//                System.out.println(e1);  
+//            }
+//        }
+//    }
+    public static void writeEmployeeToFile(String filename,Employee employee)
+    {
+        FileWriter fw=null;
+        BufferedWriter bw=null;
+        try {
+            fw= new FileWriter(filename, true);
+            bw= new BufferedWriter(fw);
+            bw.write(employee.getEmployeeId()+"|"+employee.getEmployeeName()+"|"+employee.getEmployeePhone()+"|"+employee.getEmployeeAddress()+"\n");  
+        } catch (IOException e0) {
+            System.out.println("Error: " + e0);
+        } finally {
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException e1) {
+                System.out.println("Error: " + e1);
+            }
+        }
+    }
+    public static List<Employee> readEmployeeFromFile(String filename){
+        List<Employee> employees = new ArrayList<Employee>();
+        FileReader fr=null;
+        BufferedReader br=null;
+        try {
+            fr = new FileReader(filename);
+            br = new BufferedReader(fr);
+            String line = "";
+            while((line = br.readLine()) != null){
+                String[] data = line.split("\\|");
+                Employee employee = new Employee(Integer.parseInt(data[0]),data[1],data[2],data[3]);
+                employees.add(employee);
+            }
+        } catch (Exception e0) {
+            System.out.println("Error: " + e0);
+        } finally {
+            try {
+                br.close();  
+                fr.close();
+            } catch (Exception e1) {         
+                System.out.println("Error: " + e1);  
+            }
+        }
+        return employees;
+    }
+
+        public static void updateEmployeeToFile(String filename, List<Employee> employees){
+        FileWriter fw=null;
+        BufferedWriter bw=null;
+        try {
+            fw = new FileWriter(filename,false);
+            bw = new BufferedWriter(fw);
+            for(Employee item : employees){
+                bw.write(item.getEmployeeId()+"|"+item.getEmployeeName()+"|"+item.getEmployeePhone()+"|"+item.getEmployeeAddress()+"\n");
+            }
+        } catch (Exception e0) {
+            System.out.println("Error: "+e0);
+        } finally {
+            try {
+                bw.close();  
+                fw.close();
+            } catch (Exception e1) {         
+                System.out.println("Error: " + e1);  
+            }
+        }
+    }
+
+   
     
-    
-    
-    
-    
-    
+
 }

@@ -147,7 +147,9 @@ public class AdminHomePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void employeeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeBtnActionPerformed
-        // TODO add your handling code here:
+        this.dispose();//combined into 1 windown 
+        EmployeeManagement newWindow = new EmployeeManagement();
+        newWindow.setVisible(true);
     }//GEN-LAST:event_employeeBtnActionPerformed
 
     private void turnoverBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_turnoverBtnActionPerformed

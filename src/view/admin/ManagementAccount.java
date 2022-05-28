@@ -301,6 +301,7 @@ public class ManagementAccount extends javax.swing.JFrame {
                 listAcc.add(account);
                 setTextNull("Thêm tài khoản mới thành công", "Thêm mới tài khoản");
                 increaseIndex();
+                usernameField.requestFocus();
             }
         } catch(NumberFormatException e) {
             showError.setText("Vui lòng lòng nhập đầy đủ thông tin");
@@ -334,21 +335,26 @@ public class ManagementAccount extends javax.swing.JFrame {
         addBtn.setEnabled(true);
         setTextNull("Cập nhật thông tin thành công", "Cập nhật tài khoản");
         increaseIndex();
+        usernameField.requestFocus();
     }//GEN-LAST:event_editBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
-        int row = accountTable.getSelectedRow();
-        tableModal.removeRow(row);
+        int answer = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa tài khoản này?", "Xác nhận", JOptionPane.YES_NO_OPTION,0);
+        if(answer == 0){
+            int row = accountTable.getSelectedRow();
+            tableModal.removeRow(row);
 
-        listAcc.remove(row);
-        fileController.updateListAccountToFile("account.txt", listAcc);
+            listAcc.remove(row);
+            fileController.updateListAccountToFile("account.txt", listAcc);
 
-        editBtn.setEnabled(false);
-        deleteBtn.setEnabled(false);
-        addBtn.setEnabled(true);
-        setTextNull("Xóa thành công", "Xóa tài khoản");
-        increaseIndex();
+            editBtn.setEnabled(false);
+            deleteBtn.setEnabled(false);
+            addBtn.setEnabled(true);
+            setTextNull("Xóa thành công", "Xóa tài khoản");
+            increaseIndex();
+            usernameField.requestFocus();
+        }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void accountTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accountTableMouseClicked

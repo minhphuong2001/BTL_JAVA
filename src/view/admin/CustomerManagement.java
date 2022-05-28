@@ -96,6 +96,8 @@ public class CustomerManagement extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(950, 500));
+        setPreferredSize(new java.awt.Dimension(950, 450));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -161,7 +163,7 @@ public class CustomerManagement extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tbCustomer);
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 73, 399, 253));
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 73, 450, 253));
 
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -305,14 +307,14 @@ public class CustomerManagement extends javax.swing.JFrame {
 
     private void tbCustomerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCustomerMouseExited
         // TODO add your handling code here:
-        inpCustomerId.setText("");
-        inpCustomerName.setText("");
-        inpCustomerPhone.setText("");
-        inpAccumulatePoints.setText("");
-        
-        btnAdd.setEnabled(true);
-        btnUpdate.setEnabled(true);
-        btnDelete.setEnabled(true);
+//        inpCustomerId.setText("");
+//        inpCustomerName.setText("");
+//        inpCustomerPhone.setText("");
+//        inpAccumulatePoints.setText("");
+//        
+//        btnAdd.setEnabled(true);
+//        btnUpdate.setEnabled(true);
+//        btnDelete.setEnabled(true);
           
     }//GEN-LAST:event_tbCustomerMouseExited
 

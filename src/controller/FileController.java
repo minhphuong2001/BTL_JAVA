@@ -10,6 +10,10 @@ import java.util.List;
 import modal.Account;
 import modal.Customer;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import modal.Order;
+import modal.OrderDetail;
+import modal.Product;
 
 /**
  *
@@ -115,7 +119,7 @@ public class FileController {
             fw= new FileWriter(filename, false);
             bw= new BufferedWriter(fw);
             for(Customer cus: Customers){
-                bw.write(cus.getCustomerId()+";"+cus.getCustomerName()+";"+cus.getCustomerPhone()+";"+cus.getAccumulatePoints());  
+                bw.write(cus.getCustomerId()+"|"+cus.getCustomerName()+"|"+cus.getCustomerPhone()+"|"+cus.getAccumulatePoints());  
                 bw.newLine();
             }  
         } catch (IOException ex) {
@@ -158,7 +162,156 @@ public class FileController {
     
     
     
+     public static void writeOrderToFile(String filename, Order order){
+        try {
+            fileWriter=new FileWriter(filename, true);
+            bufWriter =new BufferedWriter(fileWriter);
+           bufWriter.write("\n"+order.getOrderID()+"|"+order.getCustomerID()+"|"+order.getDate()+"|"+order.getTotalMoneyDouble());  
+        } catch (Exception e) {
+            System.out.println("Lỗi  ghi file !"+e);
+        } finally {
+            try {
+               
+                bufWriter.close(); fileWriter.close();
+            } catch (Exception e) {
+                System.out.println("Không thể đóng file 1!"+e);
+            }
+        }
+      
+    }
+    public static List<Order>readOrderFromFile(String filename){
+        List<Order> orders=new ArrayList<Order>();
+        try {
+            fileReader=new FileReader(filename);
+             bufReader=new BufferedReader(fileReader);
+             File file= new File(filename);
+             if(file.exists()){
+                file.createNewFile();
+             }
+             String line="";
+             while((line= bufReader.readLine())!=null){
+                 String []data=line.split("\\|");
+                 Order order;
+                 order = new Order(Integer.parseInt(data[0]),Integer.parseInt(data[1]),data[2] ,Double.parseDouble(data[3]));
+                 orders.add(order);
+                 
+             }
+             
+        } catch (Exception e) {
+            System.out.println(" Lỗi đọc ghi order !"+e);        }
+       finally{
+            try {
+                bufReader.close();
+                fileReader.close();
+            } catch (Exception e) {
+                System.out.println("không thể đóng file order !"+e);
+            }
+        }
+            return orders;    
+    }
+     
+    public static void writeOrderDetailToFile(String filename, OrderDetail order){
+        try {
+            fileWriter=new FileWriter(filename, true);
+            bufWriter =new BufferedWriter(fileWriter);
+        } catch (Exception e) {
+            System.out.println("Lỗi đọc ghi file !"+e);
+        } finally {
+            try {
+                fileWriter.close();
+                bufWriter.close();
+            } catch (Exception e) {
+                System.out.println("Không thể đóng file !"+e);
+            }
+        }
+      
+    }
+    public static List<OrderDetail>readOrderDetailFromFile(String filename){
+        List<OrderDetail> orderDetails=new ArrayList<OrderDetail>();
+        try {
+            fileReader=new FileReader(filename);
+             bufReader=new BufferedReader(fileReader);
+             File file= new File(filename);
+             if(file.exists()){
+                file.createNewFile();
+             }
+             String line="";
+             while((line= bufReader.readLine())!=null){
+                 String []data=line.split("\\|");
+                 OrderDetail orderDetail=new OrderDetail(Integer.parseInt(data[0]),Integer.parseInt(data[1]),data[2],Double.parseDouble(data[3]));
+                 orderDetails.add(orderDetail);
+                 
+             }
+             
+        } catch (Exception e) {
+            System.out.println(" Lỗi đọc ghi file!"+e);        }
+       finally{
+            try {
+                bufReader.close();
+                fileWriter.close();
+            } catch (Exception e) {
+                System.out.println("không thể đóng file!"+e);
+            }
+        }
+            return orderDetails;    
+    }
+
+   
+    public void writelistOrderToFile(String filename, List<Order> orders) {
+         FileWriter fw=null;
+        BufferedWriter bw=null;
+        try {
+            fw= new FileWriter(filename, false);
+            bw= new BufferedWriter(fw);
+            for(Order item: orders){
+                writeOrderToFile(filename, item);
+            }  
+            
+            System.out.println("update file successfully...");
+        } catch (IOException ex) {
+            System.out.println("loi ghi file");
+        } finally {
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+                System.out.println("Loi close");
+            }
+        }
+    }
+
+    public List<Product> readProductFromFile(String filename) {
+        List<Product> products=new ArrayList<Product>();
+        try {
+            fileReader=new FileReader(filename);
+             bufReader=new BufferedReader(fileReader);
+             File file= new File(filename);
+             if(file.exists()){
+                file.createNewFile();
+             }
+             String line="";
+             while((line= bufReader.readLine())!=null){
+                 String []data=line.split("\\|");
+                 Product product=new Product(Integer.parseInt(data[0]),data[1],Double.parseDouble(data[2]),Double.parseDouble(data[3]),Double.parseDouble(data[4]),Integer.parseInt(data[5]));
+                products.add(product);
+                 
+             }
+             
+        } catch (Exception e) {
+            System.out.println(" Lỗi đọc ghi file!"+e);        }
+       finally{
+            try {
+                bufReader.close();
+                fileWriter.close();
+            } catch (Exception e) {
+                System.out.println("không thể đóng file!"+e);
+            }
+        }
+            return products;    
     
+    }
+            
+                   
     
     
 }

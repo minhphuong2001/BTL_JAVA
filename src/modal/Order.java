@@ -18,17 +18,23 @@ public class Order {
     private Integer orderID;
     private Integer customerID;
     private String date;
+    private String status;
     private Double totalMoneyDouble;
 
-    public Order(Integer orderID,Integer customerID,String date, Double totalMoneyDouble) {
+    public Order(Integer orderID,Integer customerID,String date, Double totalMoneyDouble,String status) {
         this.orderID = orderID;
         this.customerID = customerID;
         this.date = date;
         this.totalMoneyDouble = totalMoneyDouble;
+        this.status=status;
     }
 
-    public Order(Integer cusID, String strdate, double Tongtien) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     
@@ -64,9 +70,10 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" + "orderID=" + orderID + ", customerID=" + customerID + ", date=" + date + ", totalMoneyDouble=" + totalMoneyDouble + '}';
+        return "Order{" + "orderID=" + orderID + ", customerID=" + customerID + ", date=" + date  + ", totalMoneyDouble=" + totalMoneyDouble + ", status=" + status +"}";
     }
 
+    
     
     
     

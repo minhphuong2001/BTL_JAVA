@@ -166,13 +166,14 @@ public class FileController {
         try {
             fileWriter=new FileWriter(filename, true);
             bufWriter =new BufferedWriter(fileWriter);
-           bufWriter.write("\n"+order.getOrderID()+"|"+order.getCustomerID()+"|"+order.getDate()+"|"+order.getTotalMoneyDouble());  
+           bufWriter.write("\n"+order.getOrderID()+"|"+order.getCustomerID()+"|"+order.getDate()+"|"+order.getTotalMoneyDouble()+"|"+order.getStatus());  
         } catch (Exception e) {
             System.out.println("Lỗi  ghi file !"+e);
         } finally {
             try {
                
-                bufWriter.close(); fileWriter.close();
+                bufWriter.close(); 
+                fileWriter.close();
             } catch (Exception e) {
                 System.out.println("Không thể đóng file 1!"+e);
             }
@@ -192,7 +193,7 @@ public class FileController {
              while((line= bufReader.readLine())!=null){
                  String []data=line.split("\\|");
                  Order order;
-                 order = new Order(Integer.parseInt(data[0]),Integer.parseInt(data[1]),data[2] ,Double.parseDouble(data[3]));
+                 order = new Order(Integer.parseInt(data[0]),Integer.parseInt(data[1]),data[2] ,Double.parseDouble(data[3]),data[4]);
                  orders.add(order);
                  
              }
@@ -263,9 +264,9 @@ public class FileController {
         try {
             fw= new FileWriter(filename, false);
             bw= new BufferedWriter(fw);
-            for(Order item: orders){
+            orders.forEach(item -> {
                 writeOrderToFile(filename, item);
-            }  
+             });  
             
             System.out.println("update file successfully...");
         } catch (IOException ex) {

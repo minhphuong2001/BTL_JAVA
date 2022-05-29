@@ -114,7 +114,7 @@ public class EmployeeManagement extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 120, 370, 220));
 
         addBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        addBtn.setText("ADD");
+        addBtn.setText("Thêm");
         addBtn.setPreferredSize(new java.awt.Dimension(70, 25));
         addBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,7 +123,7 @@ public class EmployeeManagement extends javax.swing.JFrame {
         });
 
         updateBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        updateBtn.setText("UPDATE");
+        updateBtn.setText("Cập nhật");
         updateBtn.setPreferredSize(new java.awt.Dimension(70, 25));
         updateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,7 +132,7 @@ public class EmployeeManagement extends javax.swing.JFrame {
         });
 
         deleteBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        deleteBtn.setText("DELETE");
+        deleteBtn.setText("Xóa");
         deleteBtn.setPreferredSize(new java.awt.Dimension(70, 25));
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,7 +141,7 @@ public class EmployeeManagement extends javax.swing.JFrame {
         });
 
         exitBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        exitBtn.setText("EXIT");
+        exitBtn.setText("Đóng");
         exitBtn.setPreferredSize(new java.awt.Dimension(70, 25));
         exitBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -206,7 +206,7 @@ public class EmployeeManagement extends javax.swing.JFrame {
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 73, -1));
         jPanel2.add(addressField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 199, 27));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 320, 220));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 320, 220));
 
         Error.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Error.setForeground(new java.awt.Color(204, 0, 51));

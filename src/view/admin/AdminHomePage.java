@@ -4,6 +4,8 @@
  */
 package view.admin;
 
+import view.Login;
+
 /**
  *
  * @author Minh Phuong Do
@@ -46,6 +48,11 @@ public class AdminHomePage extends javax.swing.JFrame {
         jLabel1.setText("MINSHOP");
 
         jButton1.setText("Đăng xuất");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
         titlePanel.setLayout(titlePanelLayout);
@@ -74,6 +81,11 @@ public class AdminHomePage extends javax.swing.JFrame {
 
         customerBtn.setForeground(new java.awt.Color(75, 123, 236));
         customerBtn.setText("QUẢN LÝ KHÁCH HÀNG");
+        customerBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customerBtnActionPerformed(evt);
+            }
+        });
 
         employeeBtn.setForeground(new java.awt.Color(75, 123, 236));
         employeeBtn.setText("QUẢN LÝ NHÂN VIÊN");
@@ -92,7 +104,7 @@ public class AdminHomePage extends javax.swing.JFrame {
         });
 
         turnoverBtn.setForeground(new java.awt.Color(75, 123, 236));
-        turnoverBtn.setText("QUẢN LÝ DOANH THU");
+        turnoverBtn.setText("QUẢN LÝ HÓA ĐƠN");
         turnoverBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 turnoverBtnActionPerformed(evt);
@@ -160,6 +172,17 @@ public class AdminHomePage extends javax.swing.JFrame {
         // TODO add your handling code here:
         new ManagementAccount().setVisible(true);
     }//GEN-LAST:event_accountBtnActionPerformed
+
+    private void customerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerBtnActionPerformed
+        // TODO add your handling code here:
+        new CustomerManagement().setVisible(true);
+    }//GEN-LAST:event_customerBtnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new Login().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

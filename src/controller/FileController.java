@@ -258,7 +258,8 @@ public class FileController {
     }
 
    
-    public void writelistOrderToFile(String filename, List<Order> orders) {
+    public  static void writelistOrderToFile(String filename, List<Order> orders) {
+       
          FileWriter fw=null;
         BufferedWriter bw=null;
         try {
@@ -281,8 +282,8 @@ public class FileController {
         }
     }
 
-    public List<Product> readProductFromFile(String filename) {
-        List<Product> products=new ArrayList<Product>();
+    public static List<Product> readProductFromFile(String filename) {
+        List<Product> products=new ArrayList<>();
         try {
             fileReader=new FileReader(filename);
              bufReader=new BufferedReader(fileReader);
@@ -293,26 +294,66 @@ public class FileController {
              String line="";
              while((line= bufReader.readLine())!=null){
                  String []data=line.split("\\|");
-                 Product product=new Product(Integer.parseInt(data[0]),data[1],Double.parseDouble(data[2]),Double.parseDouble(data[3]),Double.parseDouble(data[4]),Integer.parseInt(data[5]));
+                 Product product=new Product(Integer.parseInt(data[0]),data[1],Double.parseDouble(data[2]),Double.parseDouble(data[4]),Integer.parseInt(data[5]));
                 products.add(product);
                  
              }
              
         } catch (Exception e) {
-            System.out.println(" Lỗi đọc ghi file!"+e);        }
+            System.out.println(" Lỗi đọc ghi file product!"+e);        }
        finally{
             try {
                 bufReader.close();
                 fileWriter.close();
             } catch (Exception e) {
-                System.out.println("không thể đóng file!"+e);
+                System.out.println("không thể đóng file product!"+e);
             }
         }
             return products;    
     
     }
             
-                   
+          public static void writeProductToFile(String filename, Product product){
+        try {
+            fileWriter = new FileWriter(filename, true);
+            bufWriter = new BufferedWriter(fileWriter);
+            bufWriter.write("\n"+product.getProductId()+"|"+product.getProductName()+"|"+product.getPrice()+"|"+product.getPrePrice()+"|"+product.getSaleDouble()+"|"+product.getQuantity());
+            System.out.println("write file successfully...");
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                bufWriter.close();  
+                fileWriter.close();
+            } catch (Exception e) {         
+                System.out.println("error1: " + e);  
+            }
+        }
+    }
+   
+    public static void updateListProductToFile(String filename, List<Product> listProduct){
+        FileWriter fw=null;
+        BufferedWriter bw=null;
+        try {
+            fw= new FileWriter(filename, false);
+            bw= new BufferedWriter(fw);
+            listProduct.forEach(item -> {
+                writeProductToFile(filename, item);
+             });  
+            
+            System.out.println("update file successfully...");
+        } catch (IOException ex) {
+            System.out.println("loi ghi file");
+        } finally {
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+                System.out.println("Loi close");
+            }
+        }
+    }
+             
     
     
 }

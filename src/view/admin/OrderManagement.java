@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.plaf.ComboBoxUI;
 import javax.swing.table.DefaultTableModel;
 import modal.Customer;
 import modal.Order;
@@ -56,7 +55,7 @@ public class OrderManagement extends javax.swing.JFrame {
        
         updateBtn.setEnabled(false);
         deleteBtn.setEnabled(false);
-        searchBtn.setEnabled(false);
+//        searchBtn.setEnabled(false);
         
     }
 
@@ -83,7 +82,7 @@ public class OrderManagement extends javax.swing.JFrame {
         searchBtn = new javax.swing.JButton();
         updateBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
-        status = new javax.swing.JComboBox<>();
+        cbxstatus = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
         ipnOrderID = new javax.swing.JFormattedTextField();
         ipnDate = new com.toedter.calendar.JDateChooser();
@@ -154,7 +153,12 @@ public class OrderManagement extends javax.swing.JFrame {
         });
 
         searchBtn.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        searchBtn.setText("Tìm kiếm");
+        searchBtn.setText("Chi Tiết");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
 
         updateBtn.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         updateBtn.setText("Sửa ");
@@ -172,10 +176,10 @@ public class OrderManagement extends javax.swing.JFrame {
             }
         });
 
-        status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đang chờ xử lý", "Đã thanh toán", " " }));
-        status.addActionListener(new java.awt.event.ActionListener() {
+        cbxstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đang chờ xử lý", "Đã thanh toán", " " }));
+        cbxstatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statusActionPerformed(evt);
+                cbxstatusActionPerformed(evt);
             }
         });
 
@@ -222,7 +226,7 @@ public class OrderManagement extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(status, 0, 114, Short.MAX_VALUE)
+                        .addComponent(cbxstatus, 0, 114, Short.MAX_VALUE)
                         .addComponent(ipnDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
@@ -234,7 +238,7 @@ public class OrderManagement extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(ipnDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbxstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
@@ -374,7 +378,7 @@ public class OrderManagement extends javax.swing.JFrame {
              Date date=ipnDate.getDate();
              SimpleDateFormat fm = new SimpleDateFormat("dd/MM/yyyy");
              String strdate=fm.format(date);
-             String status=this.status.getSelectedItem().toString();
+             String status=cbxstatus.getSelectedItem().toString();
                      
            
              ipnTotal.setText(Tongtien+"");
@@ -407,7 +411,7 @@ public class OrderManagement extends javax.swing.JFrame {
         Integer cusID=Integer.parseInt(ipnCusmonerID.getText().trim());
         int row=orderTbl.getSelectedRow();
         Integer orderID=(Integer)orderTbl.getValueAt(row, 0);
-        String status=this.status.getSelectedItem().toString(); 
+        String status=cbxstatus.getSelectedItem().toString(); 
         System.out.println(status);
         //update lai file
         Order order=new Order(orderID,cusID,strdate, Tongtien,status);
@@ -430,13 +434,9 @@ public class OrderManagement extends javax.swing.JFrame {
         ipnCusmonerID.setText("");
         ipnTotal.setText("");
         //ipnDate.setText("");
-        //status.getSelectedIndex(0);
+        cbxstatus.setSelectedIndex(0);
         
     }//GEN-LAST:event_updateBtnActionPerformed
-
-    private void statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_statusActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -446,7 +446,7 @@ public class OrderManagement extends javax.swing.JFrame {
        addBtn.setEnabled(false);
         updateBtn.setEnabled(true);
         deleteBtn.setEnabled(true);
-        searchBtn.setEnabled(false);
+//        searchBtn.setEnabled(false);
         int row=orderTbl.getSelectedRow();
       int orderID=(int)model.getValueAt(row,0);
       int cusID=(int)model.getValueAt(row,1);
@@ -460,8 +460,8 @@ public class OrderManagement extends javax.swing.JFrame {
             System.out.println("loi ki");
             Logger.getLogger(OrderManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
       double total=(double)model.getValueAt(row, 3);
+      String status=(String)model.getValueAt(row,4);
         System.out.println(orderID);
       // đưa dữ liệu lên ô input
       ipnOrderID.setText(orderID+"");
@@ -493,15 +493,28 @@ public class OrderManagement extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteBtnActionPerformed
 
+    private void cbxstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxstatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxstatusActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+       Date date=ipnDate.getDate();
+         SimpleDateFormat fm= new SimpleDateFormat("dd/MM/yyyy");
+         String strdate=fm.format(date);
+        chitiethoadon hd=new chitiethoadon(ipnOrderID.getText(),ipnCusmonerID.getText(),strdate);
+        hd.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */   
 //   tongtiem=soluong*giaban-giamgia
 //  action nếu là thêm thì action=true, nếu là xóa thì action=false;
   
-  public  void  orderTblAction(){
-  }
+ 
     private void actionDisplay(){
+        searchBtn.setEnabled(true);
         model=(DefaultTableModel)orderTbl.getModel();
         orders=FileController.readOrderFromFile("order.txt");
         orders.forEach(item -> {
@@ -525,27 +538,7 @@ public class OrderManagement extends javax.swing.JFrame {
             }
         
     }
-     private void ProductsDisplay()
-    {
-        
-//        modelPro=(DefaultTableModel) productTbl.getModel();
-//         products=fileController.readProductFromFile("products.txt");
-//       
-//            for(Product a: products ) {
-//            modelPro.addRow(new Object[]{
-//                a.getProductId(), a.getProductName(),a.getPrice(), a.getQuantity()
-//            });
-//            }
-//        
-    }
-private double tinhtongTien(int iQuantity, double iPrice, double iSaleOff,boolean  action){
-if(action){
-    Tongtien +=iQuantity*iPrice-iSaleOff;}
-    else {
-    Tongtien-=iQuantity*iPrice-iSaleOff;
-  
-}  return Tongtien;
-}
+   
      public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -581,6 +574,7 @@ if(action){
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
+    private javax.swing.JComboBox<String> cbxstatus;
     private javax.swing.JTable customerTb;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JTextField ipnCusmonerID;
@@ -601,8 +595,9 @@ if(action){
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable orderTbl;
     private javax.swing.JButton searchBtn;
-    private javax.swing.JComboBox<String> status;
     private javax.swing.JButton updateBtn;
     // End of variables declaration//GEN-END:variables
+
+    
 }
 

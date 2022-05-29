@@ -24,6 +24,13 @@ public class Product {
         this.SaleDouble = SaleDouble;
         this.Quantity = Quantity;
     }
+     public Product(Integer ProductId, String ProductName, Double Price,Double SaleDouble, int Quantity) {
+        this.ProductId = ProductId;
+        this.ProductName = ProductName;
+        this.Price = Price;
+        this.SaleDouble = SaleDouble;
+        this.Quantity = Quantity;
+    }
 
     public Integer getProductId() {
         return ProductId;

@@ -401,14 +401,14 @@ public class ManagementAccount extends javax.swing.JFrame {
                 if(value.compareTo("") == 0){
                     showError.setText("Vui lòng nhập mật khẩu");
                     return;
-                }
+                }xem
                 if(value.length() < 6){
                     showError.setText("Mật khẩu phải có độ dài lớn hơn 6");
                     return;
                 }
                 showError.setText(null);
                 break;
-            case "username": {
+            case "username": { 
                 if(value.compareTo("") == 0){
                     showError.setText("Vui lòng nhập tên người dùng");
                     return;

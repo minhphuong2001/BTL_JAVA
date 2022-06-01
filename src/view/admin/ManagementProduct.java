@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package view.admin;
 
-import controller.file;
+import controller.FileController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,6 +9,8 @@ import java.util.prefs.Preferences;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.product;
+import static view.admin.ManagementAccount.fileController;
+
 
 /**
  *
@@ -22,15 +21,15 @@ public class ManagementProduct extends javax.swing.JFrame {
     private javax.swing.table.DefaultTableModel model;
     static DefaultTableModel tableModal;
     static List<product> listProduct = new ArrayList<product>();
-    static file file ;
+    static FileController file ;
     
-        public void increaseIndex(){
-        int lastIndex = listProduct.get(listProduct.size()-1).getMaSP();
+       public void increaseIndex(){
+        Integer lastIndex = listProduct.get(listProduct.size()-1).getmaSP();
         Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
 
         AtomicInteger autoinc = new AtomicInteger(prefs.getInt("autoincrement", lastIndex));
 
-        idspField.setText(""+autoinc.incrementAndGet());
+        idspField.setText("" + autoinc.incrementAndGet());
         idspField.setEnabled(false);
         prefs.putInt("autoincrement", autoinc.get());
     }
@@ -41,12 +40,12 @@ public class ManagementProduct extends javax.swing.JFrame {
         listProduct = file.readProductFromFile("product.txt");
         for(product item : listProduct){
             tableModal.addRow(new Object[]{
-                item.getMaSP(), item.getTenSP(), item.getGiaBan(), item.getGiaMua(), item.getGiamGia(), item.getSoLuong()
+                item.getmaSP(), item.getTenSP(), item.getGiaBan(), item.getGiaMua(), item.getGiamGia(), item.getSoLuong()
             });
         }
         suajButton.setEnabled(false);
         xoajButton.setEnabled(false);
-       increaseIndex();
+       // increaseIndex();
     }
 
     /**
@@ -80,6 +79,7 @@ public class ManagementProduct extends javax.swing.JFrame {
         showloi = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1000, 600));
 
         productTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -130,6 +130,7 @@ public class ManagementProduct extends javax.swing.JFrame {
 
         soluonglabel.setText("Số Lượng");
 
+        themjButton.setBackground(new java.awt.Color(192, 192, 192));
         themjButton.setText("Thêm");
         themjButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,6 +138,7 @@ public class ManagementProduct extends javax.swing.JFrame {
             }
         });
 
+        suajButton.setBackground(new java.awt.Color(102, 255, 102));
         suajButton.setText("Sửa");
         suajButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,6 +146,8 @@ public class ManagementProduct extends javax.swing.JFrame {
             }
         });
 
+        xoajButton.setBackground(new java.awt.Color(255, 0, 0));
+        xoajButton.setForeground(new java.awt.Color(255, 255, 255));
         xoajButton.setText("Xóa");
         xoajButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,6 +155,7 @@ public class ManagementProduct extends javax.swing.JFrame {
             }
         });
 
+        trovejButton.setBackground(new java.awt.Color(0, 128, 128));
         trovejButton.setText("Trở Về ");
         trovejButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,15 +171,10 @@ public class ManagementProduct extends javax.swing.JFrame {
                 .addGap(554, 554, 554)
                 .addComponent(jLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(soluonglabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(giamualabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(showloi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(giamuaField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -190,18 +190,24 @@ public class ManagementProduct extends javax.swing.JFrame {
                                     .addComponent(tensplabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(idspField, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(22, 22, 22)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(22, 22, 22))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(themjButton)
-                        .addGap(242, 242, 242)
-                        .addComponent(suajButton)
-                        .addGap(237, 237, 237)
-                        .addComponent(xoajButton)
-                        .addGap(140, 140, 140)
-                        .addComponent(trovejButton))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(giamualabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(soluonglabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(198, 198, 198)
+                .addComponent(themjButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(91, 91, 91)
+                .addComponent(suajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(91, 91, 91)
+                .addComponent(xoajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(81, 81, 81)
+                .addComponent(trovejButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,19 +243,75 @@ public class ManagementProduct extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(showloi))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(themjButton)
-                    .addComponent(suajButton)
-                    .addComponent(xoajButton)
-                    .addComponent(trovejButton))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(themjButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(suajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(xoajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(trovejButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 57, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void themjButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themjButtonActionPerformed
+        //====================================================================
+        try {
+            Integer maSP = Integer.parseInt(idspField.getText().trim());
+            String tenSP = tenspField.getText().trim();
+            Float giaBan = Float.parseFloat(giabanField.getText().trim());  
+            Float giaMua = Float.parseFloat(giamuaField.getText().trim());
+            Float giaGiam = Float.parseFloat(giagiamField.getText().trim());
+            Integer soLuong = Integer.parseInt(soluongField.getText().trim());
+            
+            if(tenSP.compareTo("") == 0){
+                showloi.setText("Vui lòng nhập tên");
+                return;
+           }
+            if(giaBan.equals("")){
+                showloi.setText("Vui lòng nhập giá bán");
+                return;
+            }
+           
+            if(giaMua.equals("")){
+                showloi.setText("Vui lòng nhập giá mua");
+                return;
+            }
+
+            if(giaGiam.equals("")){
+                showloi.setText("Vui lòng nhập giá giãm");
+                return;
+            }
+            if(soLuong.equals("")){
+                showloi.setText("Vui lòng nhập số luong");
+                return;
+            }
+                       
+            showloi.setText(null);
+
+             product product = new product(maSP, tenSP, giaBan, giaMua, giaGiam, soLuong);
+            boolean check = false;
+
+            if(check == false) {
+                fileController.writeProductToFile("account.txt", product);
+                tableModal.addRow(new Object[]{
+                    product.getmaSP(), product.getTenSP(), product.getGiaBan(), product.getGiaMua(), product.getGiamGia(),product.getSoLuong()
+                });
+                listProduct.add(product);
+                setTextNull("Thêm sản phẩm mới thành công", "Thêm mới sản phẩm");
+             //   increaseIndex();
+                tenspField.requestFocus();
+            }
+        } catch(NumberFormatException e) {
+            showloi.setText("Vui lòng lòng nhập đầy đủ thông tin");
+        } catch (Exception e) {
+            showloi.setText("Vui lòng lòng nhập đầy đủ thông tin");
+            showloi.setText(e.toString());
+        }
+        
+        
+        
         try {
             Integer maSP = Integer.parseInt(idspField.getText().trim());
             String tenSP = tenspField.getText().trim();
@@ -268,11 +330,11 @@ public class ManagementProduct extends javax.swing.JFrame {
             if(check == false) {
                 file.writeProductToFile("product.txt", Product);
                 tableModal.addRow(new Object[]{
-                    Product.getMaSP(), Product.getTenSP(), Product.getGiaBan(), Product.getGiaMua(), Product.getGiamGia(),Product.getSoLuong()
+                    Product.getmaSP(), Product.getTenSP(), Product.getGiaBan(), Product.getGiaMua(), Product.getGiamGia(),Product.getSoLuong()
                                                 });
                 listProduct.add(Product);
             setTextNull("Thêm sản phẩm mới thành công", "Thêm mới sản phẩm");
-              increaseIndex();
+            // increaseIndex();
                 //JOptionPane.showConfirmDialog(null, "Thêm tài san phâm mới thành công", "Thêm mới", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
             }
         } catch(NumberFormatException e) {
@@ -285,14 +347,21 @@ public class ManagementProduct extends javax.swing.JFrame {
 
     private void xoajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoajButtonActionPerformed
         // TODO add your handling code here:
-        int row = productTable.getSelectedRow();
+        int answer = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa sản phẩm này?", "Xác nhận", JOptionPane.YES_NO_OPTION,0);
+        if(answer == 0){
+         int row = productTable.getSelectedRow();
         tableModal.removeRow(row);
-        listProduct.remove(row);
-        file.updateListProductToFile("product.txt", listProduct);
-        suajButton.setEnabled(false);
-        xoajButton.setEnabled(false);
-        themjButton.setEnabled(true);
-        setTextNull("Xóa thành công", "Xóa sản phẩm");
+
+         listProduct.remove(row);
+         fileController.updateListProductToFile("product.txt", listProduct);
+
+            suajButton.setEnabled(false);
+            xoajButton.setEnabled(false);
+            themjButton.setEnabled(true);
+            setTextNull("Xóa thành công", "Xóa sản phẩm");
+           // increaseIndex();
+            tenspField.requestFocus();
+        }
     }//GEN-LAST:event_xoajButtonActionPerformed
 
     private void trovejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trovejButtonActionPerformed
@@ -327,12 +396,12 @@ public class ManagementProduct extends javax.swing.JFrame {
         xoajButton.setEnabled(false);
         themjButton.setEnabled(true);
         setTextNull("Cập nhật thông tin thành công", "Cập nhật sản phẩm");
-       increaseIndex();
+        increaseIndex();
     }//GEN-LAST:event_suajButtonActionPerformed
 
     private void productTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productTableMouseClicked
-    int row = productTable.getSelectedRow();
-    
+   
+        int row = productTable.getSelectedRow();
         Integer maSP = (Integer) tableModal.getValueAt(row, 0);
         String tenSP = (String) tableModal.getValueAt(row, 1);
         Float giaBan = (Float) tableModal.getValueAt(row, 2);
@@ -404,10 +473,8 @@ public class ManagementProduct extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ManagementProduct().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new ManagementProduct().setVisible(true);
         });
     }
 

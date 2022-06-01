@@ -43,11 +43,11 @@ public class product {
 
 
   
-    public Integer getMaSP() {
+    public Integer getmaSP() {
         return maSP;
     }
 
-    public void setMaSP(Integer maSP) {
+    public void setmaSP(Integer maSP) {
         this.maSP = maSP;
     }
 

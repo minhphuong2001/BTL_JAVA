@@ -252,7 +252,7 @@ public class ManagementAccount extends javax.swing.JFrame {
             String password = passwordField.getText().trim();
             String role = roleComboBox.getSelectedItem().toString().toLowerCase().trim();
             
-            if(username.compareTo("") == 0){
+            /**if(username.compareTo("") == 0){
                 showError.setText("Vui lòng nhập tên");
                 return;
            }
@@ -263,7 +263,7 @@ public class ManagementAccount extends javax.swing.JFrame {
             if(!match.matches()){
                 showError.setText("Tên người dùng không bao gồm các kí tự đặc biệt");
                 return;
-            } 
+            } **/
             if(username.length() < 6){
                 showError.setText("Tên người dùng tối thiểu 6 kí tự");
                 return;
@@ -401,7 +401,7 @@ public class ManagementAccount extends javax.swing.JFrame {
                 if(value.compareTo("") == 0){
                     showError.setText("Vui lòng nhập mật khẩu");
                     return;
-                }xem
+                }
                 if(value.length() < 6){
                     showError.setText("Mật khẩu phải có độ dài lớn hơn 6");
                     return;

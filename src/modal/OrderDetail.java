@@ -5,39 +5,38 @@
  */
 package modal;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-/**
- *
- * @author Kien Ninh
- */
 public class OrderDetail {
     private Integer orderID;
     private Integer productID;
+    private product a=new product();
+    private Order od =new Order();
     private Integer quantity;
-    private Double money;
-    private List<OrderDetail> listOD=new ArrayList<OrderDetail>();
 
-    public OrderDetail(int parseInt, int parseInt0, String string, double parseDouble) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public OrderDetail(Integer orderID, Integer productID, Integer quantity) {
+        this.orderID = orderID;
+        this.productID = productID;
+        this.quantity = quantity;
+    }
+    
+
+    public OrderDetail() {
+       
     }
 
     public Integer getOrderID() {
-        return orderID;
+        return od.getOrderID();
     }
 
-    public void setOrderID(Integer orderID) {
-        this.orderID = orderID;
+    public void setOrderID(Order od) {
+        this.orderID = od.getOrderID();
     }
 
     public Integer getProductID() {
-        return productID;
+        return a.getmaSP();
     }
 
-    public void setProductID(Integer productID) {
-        this.productID = productID;
+    public void setProductID(product a) {
+        this.productID = a.getmaSP();
     }
 
     public Integer getQuantity() {
@@ -48,41 +47,13 @@ public class OrderDetail {
         this.quantity = quantity;
     }
 
-    public Double getMoney() {
-        return money;
+    public  float money(){
+        return quantity*a.getGiaBan()-(quantity*a.getGiaBan())*a.getGiamGia();
     }
 
-    public void setMoney(Double money) {
-        this.money = money;
-    }
-
-    public List<OrderDetail> getListOD() {
-        return listOD;
-    }
-
-    public void setListOD(List<OrderDetail> listOD) {
-        this.listOD = listOD;
-    }
-
-    
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final OrderDetail other = (OrderDetail) obj;
-        if (!Objects.equals(this.orderID, other.orderID)) {
-            return false;
-        }
-        return true;
+       @Override
+    public String toString() {
+        return "OrderDetail{" + "orderID=" + orderID + ", productID=" + productID + ", quantity=" + quantity + ", money=" + money() + '}';
     }
     
-            
 }

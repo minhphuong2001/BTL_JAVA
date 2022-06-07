@@ -7,50 +7,72 @@ import java.util.Objects;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.Customer;
+import modal.Order;
 import modal.OrderDetail;
-import modal.Product;
-
+import modal.product;
 /**
  *
  * @author Kien Ninh
  */
-public class chitiethoadon extends javax.swing.JFrame {
+public class ManagementOrderDetail extends javax.swing.JFrame {
 
     /**
-     * Creates new form chitiethoadon
+     * Creates new form ManagementOrderDetail
      */
-    static DefaultTableModel model;
-    static DefaultTableModel modelPro;
-    static Double Tongtien=0.0;
-    List<OrderDetail> orderDetails=new ArrayList<>();
-    List<Customer> customers=new ArrayList<>();
-    List<Product> products=new ArrayList<>();
-    static FileController fileController;
     
-    public chitiethoadon(String mahd,String makh, String ngay) {
+    
+    public  ManagementOrderDetail(String mahd,String makh, String ngay) {
         
        initComponents();
        ipnorderID.setText(mahd);
-       ipnCustomerID.setText(makh);
+       ipnorderID.setText(makh);
        ipnDate.setText(ngay);
        ipnTotal.setText(Tongtien+"");
        ProductDisplay();
        OrderDetailDisplay(); 
        
-     
-      
-    
        }
 
-    private chitiethoadon() {
+    private ManagementOrderDetail() {
         initComponents();
         ProductDisplay();
         OrderDetailDisplay(); 
-         
-       ipnTotal.setText(Tongtien+"");
+        ipnTotal.setText(Tongtien+"");
     }
    
+public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(OrderManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(OrderManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(OrderManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(OrderManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
 
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+             new ManagementOrderDetail().setVisible(true);
+            }
+        });
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -79,14 +101,14 @@ public class chitiethoadon extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         ipnDate = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        ipnorderID = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        ipnCustomerID = new javax.swing.JTextField();
+        ipnorderID = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         ipnTotal = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         productTbl = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        ipnCustomerID1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -136,6 +158,11 @@ public class chitiethoadon extends javax.swing.JFrame {
 
         deleteBtn.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         deleteBtn.setText("Xóa");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 15)); // NOI18N
         jLabel9.setText("Giá bán");
@@ -242,20 +269,12 @@ public class chitiethoadon extends javax.swing.JFrame {
         jLabel2.setText("Mã hóa đơn");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 110, 20));
 
-        ipnorderID.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        ipnorderID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ipnorderIDActionPerformed(evt);
-            }
-        });
-        getContentPane().add(ipnorderID, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 170, -1));
-
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel3.setText("Mã khách hàng");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 130, 20));
 
-        ipnCustomerID.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        getContentPane().add(ipnCustomerID, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 170, -1));
+        ipnorderID.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        getContentPane().add(ipnorderID, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 170, -1));
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel4.setText("Tổng tiền");
@@ -282,105 +301,190 @@ public class chitiethoadon extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 410, 200));
 
-        jButton1.setText("jButton1");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 70, 40));
+        jButton1.setText("Thoát");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 90, 40));
+
+        ipnCustomerID1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        getContentPane().add(ipnCustomerID1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 170, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    static DefaultTableModel model;
+    static DefaultTableModel modelPro;
+    float Tongtien=TotalOrder();
+    List<OrderDetail> orderDetails=new ArrayList<>();
+    List<Customer> customers=new ArrayList<>();
+    List<Order> orders =new ArrayList<>();
+    List<product> products=new ArrayList<>();
+    static FileController fileController;
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
-        // TODO add your handling code here:
+        
+        float SaleOff=(float) 0.0;
+        Integer ProductID=Integer.parseInt(ipnProductID.getText());
+        float Price=Float.parseFloat(ipnPrice.getText());
+        Integer Quantity=Integer.parseInt(ipnQuantity.getText());
+        for(product a:products){
+            if(a.getmaSP().equals(ProductID))
+            {
+                SaleOff=a.getGiamGia();
+            }
+            
+        }
+        float Money=tinhtongTien(Quantity, Price, SaleOff,true);
+        Integer OrderID=Integer.parseInt(ipnorderID.getText());
+        ipnMoney.setText(Money+"");
+        OrderDetail od=new OrderDetail(OrderID,ProductID,Quantity);
+        orderDetails.add(od);
+        fileController.updateListOrderDetail("orderDedtail.txt", orderDetails);
+        model.addRow(new Object[]{
+            OrderID,ProductID,Quantity,Money
+        }
+        );
+        
+       ipnTotal.setText(Tongtien+"");
+        setNullIPN();
     }//GEN-LAST:event_updateBtnActionPerformed
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
-        // TODO add your handling code here:
+        float SaleOff=(float) 0.0;
+        Integer ProductID=Integer.parseInt(ipnProductID.getText());
+        float Price=Float.parseFloat(ipnPrice.getText());
+        Integer Quantity=Integer.parseInt(ipnQuantity.getText());
+        for(product a:products){
+            if(a.getmaSP().equals(ProductID))
+            {
+                SaleOff=a.getGiamGia();
+            }
+            
+        float Money=tinhtongTien(Quantity, Price, SaleOff,true);
+        Integer OrderID=Integer.parseInt(ipnorderID.getText());
+        ipnMoney.setText(Money+"");
+        OrderDetail od=new OrderDetail(OrderID,ProductID,Quantity);
+        orderDetails.add(od);
+        fileController.writeOrderDetailToFile("orderDedtail.txt", od);
+        model.addRow(new Object[]{
+            OrderID,ProductID,Quantity,Money
+        }
+        );
+       ipnTotal.setText(Tongtien+"");
+       setNullIPN();
+        }
     }//GEN-LAST:event_addBtnActionPerformed
-
-    private void ipnorderIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipnorderIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ipnorderIDActionPerformed
-
-    private void productTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productTblMouseClicked
-    
-      int row=productTbl.getSelectedRow();
-      Integer productID=(Integer)modelPro.getValueAt(row,0);
-      Double  Price =(Double)modelPro.getValueAt(row,2);
-      Double  Saleprice =(Double)modelPro.getValueAt(row,3);
-      
-      Integer quantity=(Integer)modelPro.getValueAt(row,4);
-      ipnPrice.setText(quantity.toString());
-     
-      
-                
-        // TODO add your handling code here:
-    }//GEN-LAST:event_productTblMouseClicked
-
     private void orderDetailTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderDetailTblMouseClicked
         //hiển thị bảng chi tiết hóa đơn
         int row=orderDetailTbl.getSelectedRow();
         Integer ProductID=(Integer)orderDetailTbl.getValueAt(row, 0);
+        Integer quantity=(Integer)orderDetailTbl.getValueAt(row, 1);
+        float Money=(Float)orderDetailTbl.getValueAt(row, 2);
+         //sdet dữ liệu lên ô text
         ipnProductID.setText(ProductID+"");
-
-      
+        for(product a:products){
+            if(a.getmaSP().equals(ProductID)){
+                ipnPrice.setText(a.getGiaBan()+"");
+            }    
+        }
+        ipnMoney.setText(Money+"");
+        ipnQuantity.setText(quantity+"");
+        
     }//GEN-LAST:event_orderDetailTblMouseClicked
 
     private void ipnProductIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipnProductIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ipnProductIDActionPerformed
 
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // TODO add your handling code here:
+        int row=orderDetailTbl.getSelectedRow();
+        Integer ProductID=(Integer)orderDetailTbl.getValueAt(row, 0);
+        Integer Quantity=(Integer)orderDetailTbl.getValueAt(row, 1);
+        float Money=(Float)orderDetailTbl.getValueAt(row, 2);
+        Integer OrderID=Integer.parseInt(ipnorderID.getText());
+        OrderDetail od=new OrderDetail(OrderID,ProductID,Quantity);
+        for(OrderDetail item:orderDetails){
+            if(od.equals(item)){
+                orderDetails.remove(item);
+                break;
+            }
+                
+        }
+       ipnTotal.setText(Tongtien+"");
+        setNullIPN();
+        
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+//        System.exit(0);
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void productTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productTblMouseClicked
+              int row=productTbl.getSelectedRow();
+              Integer productID=(Integer)modelPro.getValueAt(row,0);
+              float  Price =(float)modelPro.getValueAt(row,2);
+              float  Saleprice =(float)modelPro.getValueAt(row,3);
+              Integer quantity=(Integer)modelPro.getValueAt(row,4);
+              ipnProductID.setText(productID+"");
+              ipnPrice.setText(Price+"");
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_productTblMouseClicked
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(chitiethoadon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(chitiethoadon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(chitiethoadon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(chitiethoadon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-           
-       
-       
-            @Override
-            public void run() {
-                new chitiethoadon().setVisible(true);
-            }
-        }); 
-    }
-   private double tinhtongTien(int iQuantity, double iPrice, double iSaleOff,boolean  action){
+   
+   private float tinhtongTien(int iQuantity, Float iPrice, Float iSaleOff,boolean  action){
    
        if(action){
-           Tongtien +=iQuantity*iPrice-iSaleOff;
+           Tongtien =iQuantity*(iPrice-iSaleOff);
        }
        else {
-           Tongtien-=iQuantity*iPrice-iSaleOff;
+           Tongtien=iQuantity*(iPrice-iSaleOff);
        }   
        return Tongtien;
-} 
+    } 
+   private float TotalOrder(){
+       Integer OrderID=Integer.parseInt(ipnorderID.getText());
+      
+       float Total=Float.parseFloat(ipnTotal.getText());
+       for(OrderDetail od:orderDetails){
+           if(od.getOrderID().equals(OrderID))
+               Total+=od.money();
+       }
+       for(Order order:orders){
+           if(order.getOrderID().equals(OrderID)){
+               order.setTotalMoneyDouble(Total);}
+           
+       }
+       fileController.updatelistOrderToFile("order.txt", orders);
+       return Total;
+   }
+   public void setNullIPN(){
+       ipnProductID.setText("");
+       ipnPrice.setText("");
+       ipnQuantity.setText("");
+       ipnMoney.setText(0.0+"");
+   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
     private javax.swing.JButton deleteBtn;
-    private javax.swing.JTextField ipnCustomerID;
+    private javax.swing.JTextField ipnCustomerID1;
     private javax.swing.JTextField ipnDate;
     private javax.swing.JTextField ipnMoney;
     private javax.swing.JTextField ipnPrice;
@@ -409,10 +513,10 @@ public class chitiethoadon extends javax.swing.JFrame {
  private void ProductDisplay()
     {
         modelPro=(DefaultTableModel)productTbl.getModel();
-         products=FileController.readProductFromFile("products.txt");
-         for(Product  a:products){
+         products=FileController.readProductFromFile("product.txt");
+         for(product  a:products){
                 modelPro.addRow(new Object[]{
-                a.getProductId(),a.getProductName(),a.getPrice(),a.getSaleDouble(),a.getQuantity()
+                a.getmaSP(),a.getTenSP(),a.getGiaBan(),a.getGiamGia(),a.getSoLuong()
             });
             }
     }
@@ -420,17 +524,14 @@ public class chitiethoadon extends javax.swing.JFrame {
     private void OrderDetailDisplay() {
        
         Integer orderID =Integer.parseInt(ipnorderID.getText().trim());
-        orderID=7;
         System.out.println(orderID);
         model=(DefaultTableModel)orderDetailTbl.getModel();
         orderDetails=FileController.readOrderDetailFromFile("orderDetail.txt");
         for(OrderDetail a:orderDetails){
-            System.out.println("helo");
-           
-            if(a.getOrderID().equals(orderID))
+             if(a.getOrderID().equals(orderID))
             {
             model.addRow(new  Object[]{
-               a.getProductID(),a.getQuantity(),a.getMoney()
+               a.getProductID(),a.getQuantity(),a.money()
             });
             }
         }

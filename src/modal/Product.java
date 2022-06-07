@@ -9,82 +9,90 @@ package modal;
  *
  * @author Kien Ninh
  */
-public class Product {
- private  Integer ProductId;
-    private String ProductName;
-    private Double Price;
-    private Double PrePrice;
-    private Double SaleDouble;
-    private int Quantity;
-    public Product(Integer ProductId, String ProductName, Double Price, Double PrePrice, Double SaleDouble, int Quantity) {
-        this.ProductId = ProductId;
-        this.ProductName = ProductName;
-        this.Price = Price;
-        this.PrePrice = PrePrice;
-        this.SaleDouble = SaleDouble;
-        this.Quantity = Quantity;
-    }
-     public Product(Integer ProductId, String ProductName, Double Price,Double SaleDouble, int Quantity) {
-        this.ProductId = ProductId;
-        this.ProductName = ProductName;
-        this.Price = Price;
-        this.SaleDouble = SaleDouble;
-        this.Quantity = Quantity;
+
+public class product {
+    private Integer maSP;
+    private String tenSP;
+    private Float giaBan;
+    private Float giaMua;
+    private Float giamGia;
+    private Integer soLuong;
+
+     public String toFile(){
+        return String.format("%s|%s|%s|%s|%s|%s%n", maSP, tenSP, giaBan, giaMua, giamGia, soLuong);
     }
 
-    public Integer getProductId() {
-        return ProductId;
+    public product() {
     }
 
-    public void setProductId(Integer ProductId) {
-        this.ProductId = ProductId;
+
+    public product(String tenSP, Float giaBan, Float giaMua, Float giamGia, Integer soLuong) {
+        this.tenSP = tenSP;
+        this.giaBan = giaBan;
+        this.giaMua = giaMua;
+        this.giamGia = giamGia;
+        this.soLuong = soLuong;
     }
 
-    public String getProductName() {
-        return ProductName;
+    public product(Integer maSP, String tenSP, Float giaBan, Float giaMua, Float giamGia, Integer soLuong) {
+        this.maSP = maSP;
+        this.tenSP = tenSP;
+        this.giaBan = giaBan;
+        this.giaMua = giaMua;
+        this.giamGia = giamGia;
+        this.soLuong = soLuong;
     }
 
-    public void setProductName(String ProductName) {
-        this.ProductName = ProductName;
+
+  
+    public Integer getmaSP() {
+        return maSP;
     }
 
-    public Double getPrice() {
-        return Price;
+    public void setmaSP(Integer maSP) {
+        this.maSP = maSP;
     }
 
-    public void setPrice(Double Price) {
-        this.Price = Price;
+    public String getTenSP() {
+        return tenSP;
     }
 
-    public Double getPrePrice() {
-        return PrePrice;
+    public void setTenSP(String tenSP) {
+        this.tenSP = tenSP;
     }
 
-    public void setPrePrice(Double PrePrice) {
-        this.PrePrice = PrePrice;
+    public Float getGiaBan() {
+        return giaBan;
     }
 
-    public Double getSaleDouble() {
-        return SaleDouble;
+    public void setGiaBan(Float giaBan) {
+        this.giaBan = giaBan;
     }
 
-    public void setSaleDouble(Double SaleDouble) {
-        this.SaleDouble = SaleDouble;
+    public Float getGiaMua() {
+        return giaMua;
     }
 
-    public int getQuantity() {
-        return Quantity;
+    public void setGiaMua(Float giaMua) {
+        this.giaMua = giaMua;
     }
 
-    public void setQuantity(int Quantity) {
-        this.Quantity = Quantity;
+    public Float getGiamGia() {
+        return giamGia;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" + "ProductId=" + ProductId + ", ProductName=" + ProductName + ", Price=" + Price + ", PrePrice=" + PrePrice + ", SaleDouble=" + SaleDouble + ", Quantity=" + Quantity + '}';
+    public void setGiamGia(Float giamGia) {
+        this.giamGia = giamGia;
     }
-   
+
+    public Integer getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(Integer soLuong) {
+        this.soLuong = soLuong;
+    }
+    
     
     
     

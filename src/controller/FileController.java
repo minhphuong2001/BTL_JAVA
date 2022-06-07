@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import modal.Order;
 import modal.OrderDetail;
-import modal.Product;
+import modal.product;
 
 /**
  *
@@ -99,7 +99,7 @@ public class FileController {
         try {
             fw= new FileWriter(filename, true);
             bw= new BufferedWriter(fw);
-            bw.write("\n"+cus.getCustomerId()+";"+cus.getCustomerName()+";"+cus.getCustomerPhone()+";"+cus.getAccumulatePoints());  
+            bw.write(cus.getCustomerId()+";"+cus.getCustomerName()+";"+cus.getCustomerPhone()+";"+cus.getAccumulatePoints()+"\n");  
         } catch (IOException ex) {
             System.out.println("Loi ghi file: " + ex);
         } finally {
@@ -166,16 +166,16 @@ public class FileController {
         try {
             fileWriter=new FileWriter(filename, true);
             bufWriter =new BufferedWriter(fileWriter);
-           bufWriter.write("\n"+order.getOrderID()+"|"+order.getCustomerID()+"|"+order.getDate()+"|"+order.getTotalMoneyDouble()+"|"+order.getStatus());  
+           bufWriter.write(order.getOrderID()+"|"+order.getCustomerID()+"|"+order.getDate()+"|"+order.getTotalMoneyDouble()+"|"+order.getStatus()+"\n");  
         } catch (Exception e) {
-            System.out.println("Lỗi  ghi file !"+e);
+            System.out.println("Lỗi  ghi file order  !"+e);
         } finally {
             try {
                
                 bufWriter.close(); 
                 fileWriter.close();
             } catch (Exception e) {
-                System.out.println("Không thể đóng file 1!"+e);
+                System.out.println("Không thể đóng file doc order !"+e);
             }
         }
       
@@ -193,13 +193,13 @@ public class FileController {
              while((line= bufReader.readLine())!=null){
                  String []data=line.split("\\|");
                  Order order;
-                 order = new Order(Integer.parseInt(data[0]),Integer.parseInt(data[1]),data[2] ,Double.parseDouble(data[3]),data[4]);
+                 order = new Order(Integer.parseInt(data[0]),Integer.parseInt(data[1]),data[2] ,Float.parseFloat(data[3]),data[4]);
                  orders.add(order);
                  
              }
              
         } catch (Exception e) {
-            System.out.println(" Lỗi đọc ghi order !"+e);        }
+            System.out.println(" Lỗi đọc file order !"+e);        }
        finally{
             try {
                 bufReader.close();
@@ -211,24 +211,27 @@ public class FileController {
             return orders;    
     }
      
-    public static void writeOrderDetailToFile(String filename, OrderDetail order){
+    public static void writeOrderDetailToFile(String filename, OrderDetail orderDetail){
         try {
+            System.out.println("heloo");
             fileWriter=new FileWriter(filename, true);
             bufWriter =new BufferedWriter(fileWriter);
+             bufWriter.write(orderDetail.getOrderID()+"|"+orderDetail.getProductID()+"|"+orderDetail.getQuantity()+"|"+orderDetail.money()+"\n");  
         } catch (Exception e) {
-            System.out.println("Lỗi đọc ghi file !"+e);
+            System.out.println("Lỗi ghi file  order !"+e);
         } finally {
             try {
-                fileWriter.close();
                 bufWriter.close();
+                fileWriter.close();
+               
             } catch (Exception e) {
-                System.out.println("Không thể đóng file !"+e);
+                System.out.println("Không thể đóng file order  !"+e);
             }
         }
       
     }
     public static List<OrderDetail>readOrderDetailFromFile(String filename){
-        List<OrderDetail> orderDetails=new ArrayList<OrderDetail>();
+        List<OrderDetail> orderDetails=new ArrayList<>();
         try {
             fileReader=new FileReader(filename);
              bufReader=new BufferedReader(fileReader);
@@ -239,26 +242,26 @@ public class FileController {
              String line="";
              while((line= bufReader.readLine())!=null){
                  String []data=line.split("\\|");
-                 OrderDetail orderDetail=new OrderDetail(Integer.parseInt(data[0]),Integer.parseInt(data[1]),data[2],Double.parseDouble(data[3]));
+                 OrderDetail orderDetail=new OrderDetail(Integer.parseInt(data[0]),Integer.parseInt(data[1]),Integer.parseInt(data[2]));
                  orderDetails.add(orderDetail);
                  
              }
              
         } catch (Exception e) {
-            System.out.println(" Lỗi đọc ghi file!"+e);        }
+            System.out.println(" Lỗi đọc file orderdetail !"+e);        }
        finally{
             try {
                 bufReader.close();
-                fileWriter.close();
+                fileReader.close();
             } catch (Exception e) {
-                System.out.println("không thể đóng file!"+e);
+                System.out.println("không thể đóng file doc order !"+e);
             }
         }
             return orderDetails;    
     }
 
    
-    public  static void writelistOrderToFile(String filename, List<Order> orders) {
+    public  static void updatelistOrderToFile(String filename, List<Order> orders) {
        
          FileWriter fw=null;
         BufferedWriter bw=null;
@@ -269,55 +272,25 @@ public class FileController {
                 writeOrderToFile(filename, item);
              });  
             
-            System.out.println("update file successfully...");
+            System.out.println("update file order  successfully...");
         } catch (IOException ex) {
-            System.out.println("loi ghi file");
+            System.out.println("loi update file order  file");
         } finally {
             try {
                 bw.close();
                 fw.close();
             } catch (IOException ex) {
-                System.out.println("Loi close");
+                System.out.println("Loi khong the dong file order ");
             }
         }
     }
 
-    public static List<Product> readProductFromFile(String filename) {
-        List<Product> products=new ArrayList<>();
-        try {
-            fileReader=new FileReader(filename);
-             bufReader=new BufferedReader(fileReader);
-             File file= new File(filename);
-             if(file.exists()){
-                file.createNewFile();
-             }
-             String line="";
-             while((line= bufReader.readLine())!=null){
-                 String []data=line.split("\\|");
-                 Product product=new Product(Integer.parseInt(data[0]),data[1],Double.parseDouble(data[2]),Double.parseDouble(data[4]),Integer.parseInt(data[5]));
-                products.add(product);
-                 
-             }
-             
-        } catch (Exception e) {
-            System.out.println(" Lỗi đọc ghi file product!"+e);        }
-       finally{
-            try {
-                bufReader.close();
-                fileWriter.close();
-            } catch (Exception e) {
-                System.out.println("không thể đóng file product!"+e);
-            }
-        }
-            return products;    
     
-    }
-            
-          public static void writeProductToFile(String filename, Product product){
+         public static void writeProductToFile(String filename, product product){
         try {
             fileWriter = new FileWriter(filename, true);
             bufWriter = new BufferedWriter(fileWriter);
-            bufWriter.write("\n"+product.getProductId()+"|"+product.getProductName()+"|"+product.getPrice()+"|"+product.getPrePrice()+"|"+product.getSaleDouble()+"|"+product.getQuantity());
+            bufWriter.write(product.toFile());
             System.out.println("write file successfully...");
         } catch (Exception e) {
             System.out.println(e);
@@ -330,26 +303,72 @@ public class FileController {
             }
         }
     }
-   
-    public static void updateListProductToFile(String filename, List<Product> listProduct){
+    public static List<product> readProductFromFile(String filename){
+        List<product> listProduct = new ArrayList<product>();
+        try {
+            fileReader = new FileReader(filename);
+            bufReader = new BufferedReader(fileReader);
+            File file = new File(filename);
+                if(file.exists()){
+                file.createNewFile();
+            }
+            String line = "";
+            while((line = bufReader.readLine()) != null){
+                String[] data = line.split("\\|");
+                product Product = new product(Integer.parseInt(data[0]), data[1],Float.parseFloat(data[2]), Float.parseFloat(data[3]), Float.parseFloat(data[4]), Integer.parseInt(data[5]));
+                listProduct.add(Product);
+            }
+        } catch (Exception e) {
+            System.out.println("error2: " + e);
+        } finally {
+            try {
+                bufReader.close();  
+                fileReader.close();
+            } catch (Exception e) {         
+                System.out.println("error3: " + e);  
+            }
+        }
+        return listProduct;
+    }
+    
+    public static void updateListProductToFile(String filename, List<product> listProduct){
+        try {
+            fileWriter = new FileWriter(filename, false);
+            bufWriter = new BufferedWriter(fileWriter);
+            for(product item : listProduct){
+                bufWriter.write(item.toFile());
+            }
+            System.out.println("update file successfully...");
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                bufWriter.close();  
+                fileWriter.close();
+            } catch (Exception e) {         
+                System.out.println("error4: " + e);  
+            }
+        }
+    }        
+    public static void updateListOrderDetail(String filename, List<OrderDetail> orderDetails) {
         FileWriter fw=null;
         BufferedWriter bw=null;
         try {
             fw= new FileWriter(filename, false);
             bw= new BufferedWriter(fw);
-            listProduct.forEach(item -> {
-                writeProductToFile(filename, item);
+            orderDetails.forEach(item -> {
+                writeOrderDetailToFile(filename, item);
              });  
             
-            System.out.println("update file successfully...");
+            System.out.println("update file orderDetail successfully...");
         } catch (IOException ex) {
-            System.out.println("loi ghi file");
+            System.out.println("loi update file orderdetail ");
         } finally {
             try {
                 bw.close();
                 fw.close();
             } catch (IOException ex) {
-                System.out.println("Loi close");
+                System.out.println("Loi khong thẻ dong file orderdetail ");
             }
         }
     }

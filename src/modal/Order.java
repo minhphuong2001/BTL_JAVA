@@ -19,14 +19,18 @@ public class Order {
     private Integer customerID;
     private String date;
     private String status;
-    private Double totalMoneyDouble;
+    private Float totalMoneyDouble;
 
-    public Order(Integer orderID,Integer customerID,String date, Double totalMoneyDouble,String status) {
+    public Order(Integer orderID,Integer customerID,String date, float totalMoneyDouble,String status) {
         this.orderID = orderID;
         this.customerID = customerID;
         this.date = date;
         this.totalMoneyDouble = totalMoneyDouble;
         this.status=status;
+    }
+
+    Order() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getStatus() {
@@ -64,13 +68,17 @@ public class Order {
         this.date = date;
     }
 
-    public Double getTotalMoneyDouble() {
+    public float getTotalMoneyDouble() {
         return totalMoneyDouble;
     }
 
     @Override
     public String toString() {
         return "Order{" + "orderID=" + orderID + ", customerID=" + customerID + ", date=" + date  + ", totalMoneyDouble=" + totalMoneyDouble + ", status=" + status +"}";
+    }
+
+    public void setTotalMoneyDouble(float Total) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     
